@@ -1,0 +1,3069 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Routeyou events API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User login",
+                "operationId": "9c7361a02ab87c6f7609f2293c9abf69",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The user has been authenticated successfully."
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "your_access_token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided credentials do not match our records."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User registration",
+                "operationId": "92af7d5f95c73e20136cf817e47bde35",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+32123456789"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "City"
+                                    },
+                                    "zip": {
+                                        "type": "integer",
+                                        "example": 12345
+                                    },
+                                    "street": {
+                                        "type": "string",
+                                        "example": "Street"
+                                    },
+                                    "house_number": {
+                                        "type": "string",
+                                        "example": "123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered and authenticated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The user has been registered and authenticated successfully."
+                                        },
+                                        "user": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "first_name": "John",
+                                                "last_name": "Doe",
+                                                "full_name": "John Doe",
+                                                "email": "user@example.com",
+                                                "phone_number": "+32123456789",
+                                                "city": "City",
+                                                "zip": 12345,
+                                                "street": "Street",
+                                                "house_number": "123",
+                                                "organisation_id": null,
+                                                "updated_at": "2021-05-04T12:00:00.000000Z",
+                                                "created_at": "2021-05-04T12:00:00.000000Z"
+                                            }
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "your_access_token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "email": [
+                                                    "The email has already been taken."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User logout",
+                "operationId": "6c9562d211d58e878cfd7d1c68aa02c8",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The user has been logged out successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ]
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Get authenticated user",
+                "operationId": "501e504d6a71d05f36e6ea6c1a2a7513",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved authenticated user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The user has been returned successfully"
+                                        },
+                                        "user": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "first_name": "John",
+                                                "last_name": "Doe",
+                                                "full_name": "John Doe",
+                                                "email": "user@example.com",
+                                                "phone_number": "+32123456789",
+                                                "city": "City",
+                                                "zip": 12345,
+                                                "street": "Street",
+                                                "house_number": "123",
+                                                "organisation_id": null,
+                                                "updated_at": "2021-05-04T12:00:00.000000Z",
+                                                "created_at": "2021-05-04T12:00:00.000000Z"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Delete authenticated user",
+                "operationId": "354fce83306e6b1c49abead83ff1f31f",
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted authenticated user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The user has been deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ]
+            }
+        },
+        "/api/user/events": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get events from logged in user",
+                "operationId": "6081e17671a20661d3ea90b547386f25",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieved events",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The events of the user have been returned successfully"
+                                        },
+                                        "event": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "title": "Test event",
+                                                "description": "Test description",
+                                                "start": "2023-12-27 09:00:00",
+                                                "end": "2023-12-27 15:00:00",
+                                                "price": "50.00",
+                                                "max_participant": 100,
+                                                "city": "City",
+                                                "zip": 1703,
+                                                "street": "streetname",
+                                                "house_number": "37",
+                                                "visible": 1,
+                                                "image": "app_url/storage/JCRhhv7hD35ARVWgKQGpI4O0ZkpnYJWywJbsPoFN.png",
+                                                "type": "GENERAL",
+                                                "organisation_id": 1,
+                                                "badge_id": 1,
+                                                "created_at": "2023-12-06T14:53:31.000000Z",
+                                                "updated_at": "2023-12-06T14:53:31.000000Z",
+                                                "slug": "test-event-1",
+                                                "status": "UPCOMING",
+                                                "going_count": 0,
+                                                "participations": {
+                                                    "id": 1,
+                                                    "paid": false,
+                                                    "present": false,
+                                                    "reaction": "GOING",
+                                                    "qr_code": "app_url/storage/qr-codes/0b38d49e-e6db-4846-ae0f-b2a43c533afb.svg",
+                                                    "checkout_url": "https://www.mollie.com/payscreen/select-method/7UhSN1zuXS",
+                                                    "carpool": false,
+                                                    "carpool_role": null,
+                                                    "club_name": null,
+                                                    "problem": null,
+                                                    "user_id": 1,
+                                                    "event_id": 1,
+                                                    "badge_id": null
+                                                },
+                                                "routes": {
+                                                    "id": 1,
+                                                    "routeyou_route_id": 1234567,
+                                                    "event_id": 1,
+                                                    "checkpoints": {
+                                                        "id": 1,
+                                                        "longitude": "140.123685",
+                                                        "latitude": "50.123650",
+                                                        "coin": 10,
+                                                        "qr_code": "app_url/storage/qr-codes/0b38d49e-e6db-4846-ae0f-b2a43c533afb.svg",
+                                                        "route_id": 7
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ]
+            }
+        },
+        "/api/events": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get events",
+                "operationId": "9a6f4d9b68e0a1462ab58cc323146da0",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Title to filter events (optional)",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 45
+                        }
+                    },
+                    {
+                        "name": "organisation_name",
+                        "in": "query",
+                        "description": "Organisation name to filter events (optional)",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 45
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "Start date to filter events (optional)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "End date to filter events (optional)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "max_participant",
+                        "in": "query",
+                        "description": "Maximum participants to filter events (optional)",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "Price to filter events (optional)",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Type to filter events (optional)",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "webinar",
+                                "clubevent",
+                                "general",
+                                "routebuddy"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "paginate",
+                        "in": "query",
+                        "description": "Events on a page (optional)",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number (optional)",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieved events",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The events of the user have been returned successfully"
+                                        },
+                                        "events": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "example": {
+                                                    "id": 1,
+                                                    "title": "Test event",
+                                                    "description": "Test description",
+                                                    "start": "2023-12-27 09:00:00",
+                                                    "end": "2023-12-27 15:00:00",
+                                                    "price": "50.00",
+                                                    "max_participant": 100,
+                                                    "city": "City",
+                                                    "zip": 1703,
+                                                    "street": "streetname",
+                                                    "house_number": "37",
+                                                    "visible": 1,
+                                                    "image": "app_url/storage/JCRhhv7hD35ARVWgKQGpI4O0ZkpnYJWywJbsPoFN.png",
+                                                    "type": "GENERAL",
+                                                    "organisation_id": 1,
+                                                    "badge_id": 1,
+                                                    "created_at": "2023-12-06T14:53:31.000000Z",
+                                                    "updated_at": "2023-12-06T14:53:31.000000Z",
+                                                    "slug": "test-event-1",
+                                                    "status": "UPCOMING",
+                                                    "going_count": 0,
+                                                    "routes": {
+                                                        "id": 1,
+                                                        "routeyou_route_id": 1234567,
+                                                        "event_id": 1,
+                                                        "checkpoints": {
+                                                            "id": 1,
+                                                            "longitude": "140.123685",
+                                                            "latitude": "50.123650",
+                                                            "coin": 10,
+                                                            "qr_code": "app_url/storage/qr-codes/0b38d49e-e6db-4846-ae0f-b2a43c533afb.svg",
+                                                            "route_id": 7
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "title": [
+                                                    "The title must be a string."
+                                                ],
+                                                "organisation_name": [
+                                                    "The organisation name must be a string."
+                                                ],
+                                                "start": [
+                                                    "The start must be a date."
+                                                ],
+                                                "end": [
+                                                    "The end must be a date."
+                                                ],
+                                                "max_participant": [
+                                                    "The max participant must be a number."
+                                                ],
+                                                "price": [
+                                                    "The price must be a number."
+                                                ],
+                                                "type": [
+                                                    "The type must be a string."
+                                                ],
+                                                "top_right_lat": [
+                                                    "The top right lat field is required when top right long, bottom left lat, bottom left long are present."
+                                                ],
+                                                "top_right_long": [
+                                                    "The top right long field is required when top right lat, bottom left lat, bottom left long are present."
+                                                ],
+                                                "bottom_left_lat": [
+                                                    "The bottom left lat field is required when top right lat, top right long, bottom left long are present."
+                                                ],
+                                                "bottom_left_long": [
+                                                    "The bottom left long field is required when top right lat, top right long, bottom left lat are present."
+                                                ],
+                                                "paginate": [
+                                                    "The paginate must be a number."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Create a new event",
+                "operationId": "3e8603a392551e5496db05be2b887937",
+                "requestBody": {
+                    "description": "Event data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "maxLength": 45,
+                                        "example": "Event Title"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Event Description"
+                                    },
+                                    "start": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2023-12-27 09:00:00"
+                                    },
+                                    "end": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2023-12-27 15:00:00"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 50
+                                    },
+                                    "max_participant": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "maxLength": 45,
+                                        "example": "City Name"
+                                    },
+                                    "zip": {
+                                        "type": "integer",
+                                        "example": 1703
+                                    },
+                                    "street": {
+                                        "type": "string",
+                                        "maxLength": 45,
+                                        "example": "Street Name"
+                                    },
+                                    "house_number": {
+                                        "type": "string",
+                                        "example": "37"
+                                    },
+                                    "visible": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "event_image": {
+                                        "description": "Event image file (PNG, JPG, JPEG)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "WEBINAR",
+                                            "CLUBEVENT",
+                                            "GENERAL",
+                                            "ROUTEBUDDY"
+                                        ],
+                                        "example": "GENERAL"
+                                    },
+                                    "badge_name": {
+                                        "type": "string",
+                                        "maxLength": 45,
+                                        "example": "Badge Name"
+                                    },
+                                    "badge_description": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Badge Description"
+                                    },
+                                    "badge_image": {
+                                        "description": "Badge image file (PNG, JPG, JPEG)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "routes": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Event created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The event has been created successfully"
+                                        },
+                                        "event": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "title": "Test event",
+                                                "description": "Test description",
+                                                "start": "2023-12-27 09:00:00",
+                                                "end": "2023-12-27 15:00:00",
+                                                "price": "50.00",
+                                                "max_participant": 100,
+                                                "city": "City",
+                                                "zip": 1703,
+                                                "street": "streetname",
+                                                "house_number": "37",
+                                                "visible": 1,
+                                                "image": "app_url/storage/JCRhhv7hD35ARVWgKQGpI4O0ZkpnYJWywJbsPoFN.png",
+                                                "type": "GENERAL",
+                                                "organisation_id": 1,
+                                                "badge_id": 1,
+                                                "created_at": "2023-12-06T14:53:31.000000Z",
+                                                "updated_at": "2023-12-06T14:53:31.000000Z",
+                                                "slug": "test-event-1",
+                                                "status": "UPCOMING",
+                                                "going_count": 0,
+                                                "routes": {
+                                                    "id": 1,
+                                                    "routeyou_route_id": 1234567,
+                                                    "event_id": 1,
+                                                    "checkpoints": []
+                                                },
+                                                "badge": {
+                                                    "id": 1,
+                                                    "name": "Badge Name",
+                                                    "description": "Badge Description",
+                                                    "image": "app_url/storage/JCRhhv7hD35ARVWgKQGpI4O0ZkpnYJWywJbsPoFN.png"
+                                                },
+                                                "participations": []
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The given address is not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given address is not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "title": [
+                                                    "The title field is required."
+                                                ],
+                                                "start": [
+                                                    "The start field is required."
+                                                ],
+                                                "end": [
+                                                    "The end field is required."
+                                                ],
+                                                "price": [
+                                                    "The price field is required."
+                                                ],
+                                                "max_participant": [
+                                                    "The max participant field is required."
+                                                ],
+                                                "city": [
+                                                    "The city field is required."
+                                                ],
+                                                "zip": [
+                                                    "The zip field is required."
+                                                ],
+                                                "street": [
+                                                    "The street field is required."
+                                                ],
+                                                "house_number": [
+                                                    "The house number field is required."
+                                                ],
+                                                "visible": [
+                                                    "The visible field is required."
+                                                ],
+                                                "event_image": [
+                                                    "The event image field is required."
+                                                ],
+                                                "type": [
+                                                    "The type field is required."
+                                                ],
+                                                "badge_name": [
+                                                    "The badge name field is required."
+                                                ],
+                                                "badge_description": [
+                                                    "The badge description field is required."
+                                                ],
+                                                "badge_image": [
+                                                    "The badge image field is required."
+                                                ],
+                                                "routes": [
+                                                    "The routes field is required."
+                                                ],
+                                                "routes.0.id": [
+                                                    "The route field is required."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "ORGANISER"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/events/{event}": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get a specific event",
+                "operationId": "557c0a0899b5c535d6fdc05301fd31de",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "description": "ID of the event to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieved event",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The event has been returned successfully"
+                                        },
+                                        "event": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "title": "Test event",
+                                                "description": "Test description",
+                                                "start": "2023-12-27 09:00:00",
+                                                "end": "2023-12-27 15:00:00",
+                                                "price": "50.00",
+                                                "max_participant": 100,
+                                                "city": "City",
+                                                "zip": 1703,
+                                                "street": "streetname",
+                                                "house_number": "37",
+                                                "visible": 1,
+                                                "image": "app_url/storage/JCRhhv7hD35ARVWgKQGpI4O0ZkpnYJWywJbsPoFN.png",
+                                                "type": "GENERAL",
+                                                "organisation_id": 1,
+                                                "badge_id": 1,
+                                                "created_at": "2023-12-06T14:53:31.000000Z",
+                                                "updated_at": "2023-12-06T14:53:31.000000Z",
+                                                "slug": "test-event-1",
+                                                "status": "UPCOMING",
+                                                "going_count": 0,
+                                                "routes": {
+                                                    "id": 1,
+                                                    "routeyou_route_id": 1234567,
+                                                    "event_id": 1,
+                                                    "checkpoints": {
+                                                        "id": 1,
+                                                        "longitude": "140.123685",
+                                                        "latitude": "50.123650",
+                                                        "coin": 10,
+                                                        "qr_code": "app_url/storage/qr-codes/0b38d49e-e6db-4846-ae0f-b2a43c533afb.svg",
+                                                        "route_id": 7,
+                                                        "achievements": {
+                                                            "id": 1,
+                                                            "completed": false,
+                                                            "checkpoint_id": 1,
+                                                            "participation_id": 1
+                                                        }
+                                                    }
+                                                },
+                                                "badge": {
+                                                    "id": 1,
+                                                    "name": "Badge Name",
+                                                    "description": "Badge Description",
+                                                    "image": "app_url/storage/JCRhhv7hD35ARVWgKQGpI4O0ZkpnYJWywJbsPoFN.png"
+                                                },
+                                                "participations": {
+                                                    "id": 1,
+                                                    "paid": false,
+                                                    "present": false,
+                                                    "reaction": "GOING",
+                                                    "carpool": false,
+                                                    "carpool_role": null,
+                                                    "club_name": null,
+                                                    "problem": null,
+                                                    "user_id": 1,
+                                                    "event_id": 1,
+                                                    "badge_id": null
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Event not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Update an event",
+                "operationId": "be1ff041b4d10f10b1d391abafd7d230",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "description": "ID of the event to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated Event data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "maxLength": 45,
+                                        "example": " Event Title"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Updated Event Description"
+                                    },
+                                    "start": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2023-12-27T09:00:00"
+                                    },
+                                    "end": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2023-12-27T15:00:00"
+                                    },
+                                    "price": {
+                                        "type": "numeric",
+                                        "example": 50
+                                    },
+                                    "max_participant": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "maxLength": 45,
+                                        "example": "Updated City"
+                                    },
+                                    "zip": {
+                                        "type": "integer",
+                                        "example": 1703
+                                    },
+                                    "street": {
+                                        "type": "string",
+                                        "maxLength": 45,
+                                        "example": "Updated Street"
+                                    },
+                                    "house_number": {
+                                        "type": "string",
+                                        "example": "Updated House Number"
+                                    },
+                                    "visible": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "event_image": {
+                                        "type": "string",
+                                        "format": "uri",
+                                        "example": "https://example.com/path/to/image.jpg",
+                                        "nullable": true
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "webinar",
+                                            "clubevent",
+                                            "general",
+                                            "routebuddy"
+                                        ],
+                                        "example": "webinar"
+                                    },
+                                    "badge_name": {
+                                        "type": "string",
+                                        "maxLength": 45,
+                                        "example": "Updated Badge Name"
+                                    },
+                                    "badge_description": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Updated Badge Description"
+                                    },
+                                    "badge_image": {
+                                        "type": "string",
+                                        "format": "uri",
+                                        "example": "https://example.com/path/to/badge_image.jpg",
+                                        "nullable": true
+                                    },
+                                    "routes": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Event updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The event has been updated successfully."
+                                        },
+                                        "event": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "title": "Updated Event Title",
+                                                "description": "Updated Event Description",
+                                                "start": "2023-12-27 09:00:00",
+                                                "end": "2023-12-27 15:00:00",
+                                                "price": "50.00",
+                                                "max_participant": 100,
+                                                "city": "City",
+                                                "zip": 1703,
+                                                "street": "streetname",
+                                                "house_number": "37",
+                                                "visible": 1,
+                                                "image": "app_url/storage/JCRhhv7hD35ARVWgKQGpI4O0ZkpnYJWywJbsPoFN.png",
+                                                "type": "GENERAL",
+                                                "organisation_id": 1,
+                                                "badge_id": 1,
+                                                "created_at": "2023-12-06T14:53:31.000000Z",
+                                                "updated_at": "2023-12-06T14:53:31.000000Z",
+                                                "slug": "test-event-1",
+                                                "status": "UPCOMING",
+                                                "going_count": 0,
+                                                "routes": {
+                                                    "id": 1,
+                                                    "routeyou_route_id": 1234567,
+                                                    "event_id": 1,
+                                                    "checkpoints": []
+                                                },
+                                                "badge": {
+                                                    "id": 1,
+                                                    "name": "Badge Name",
+                                                    "description": "Badge Description",
+                                                    "image": "app_url/storage/JCRhhv7hD35ARVWgKQGpI4O0ZkpnYJWywJbsPoFN.png"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message(1)": {
+                                            "type": "string",
+                                            "example": "No query results for model Event."
+                                        },
+                                        "message(2)": {
+                                            "type": "string",
+                                            "example": "The given address is not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "title": [
+                                                    "The title field is required."
+                                                ],
+                                                "start": [
+                                                    "The start field is required."
+                                                ],
+                                                "end": [
+                                                    "The end field is required."
+                                                ],
+                                                "price": [
+                                                    "The price field is required."
+                                                ],
+                                                "max_participant": [
+                                                    "The max participant field is required."
+                                                ],
+                                                "city": [
+                                                    "The city field is required."
+                                                ],
+                                                "zip": [
+                                                    "The zip field is required."
+                                                ],
+                                                "street": [
+                                                    "The street field is required."
+                                                ],
+                                                "house_number": [
+                                                    "The house number field is required."
+                                                ],
+                                                "visible": [
+                                                    "The visible field is required."
+                                                ],
+                                                "event_image": [
+                                                    "The event image field is required."
+                                                ],
+                                                "type": [
+                                                    "The type field is required."
+                                                ],
+                                                "badge_name": [
+                                                    "The badge name field is required."
+                                                ],
+                                                "badge_description": [
+                                                    "The badge description field is required."
+                                                ],
+                                                "badge_image": [
+                                                    "The badge image field is required."
+                                                ],
+                                                "routes": [
+                                                    "The routes field is required."
+                                                ],
+                                                "routes.0.id": [
+                                                    "The route field is required."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "ORGANISER"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Delete a event",
+                "operationId": "128c10cd8025abb792db5d473d5ec381",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "description": "ID of the event will be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Event deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to access this resource."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Event not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Event not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "ORGANISER"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/events/{event}/participate": {
+            "put": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Update user participation for an event",
+                "operationId": "747c9d4801dd07ba9fa4f8c377aff372",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "description": "ID of the event to update participation",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated Participation data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "reaction": {
+                                        "type": "string",
+                                        "enum": [
+                                            "GOING",
+                                            "INTERESTED",
+                                            "ABSENT"
+                                        ],
+                                        "example": "GOING"
+                                    },
+                                    "carpool": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "carpool_role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "DRIVER",
+                                            "PASSENGER"
+                                        ],
+                                        "example": "DRIVER"
+                                    },
+                                    "club_name": {
+                                        "type": "string",
+                                        "maxLength": 45,
+                                        "example": "Club Name",
+                                        "nullable": true
+                                    },
+                                    "problem": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Problem description",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Participation updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Your participation has been updated successfully."
+                                        },
+                                        "participation": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "paid": false,
+                                                "present": false,
+                                                "reaction": "GOING",
+                                                "qr_code": "app_url/storage/qr-codes/0b38d49e-e6db-4846-ae0f-b2a43c533afb.svg",
+                                                "checkout_url": "https://www.mollie.com/payscreen/select-method/7UhSN1zuXS",
+                                                "carpool": true,
+                                                "carpool_role": "DRIVER",
+                                                "club_name": "Club Name",
+                                                "problem": "Problem description",
+                                                "user_id": 1,
+                                                "event_id": 1,
+                                                "badge_id": null
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to access this resource."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Event not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Event not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "reaction": [
+                                                    "The reaction field is required."
+                                                ],
+                                                "carpool": [
+                                                    "The carpool field is required."
+                                                ],
+                                                "carpool_role": [
+                                                    "The carpool role field is required when carpool is true."
+                                                ],
+                                                "club_name": [
+                                                    "The club name field is required when carpool is true."
+                                                ],
+                                                "problem": [
+                                                    "The problem field is required when present is false."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "USER"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Register participation for an event",
+                "operationId": "4fe875a72cc4acaa050558f53ca81ee5",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "description": "ID of the event to participate in event",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Participation data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "reaction": {
+                                        "type": "string",
+                                        "enum": [
+                                            "GOING",
+                                            "INTERESTED",
+                                            "ABSENT"
+                                        ],
+                                        "example": "GOING"
+                                    },
+                                    "carpool": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "carpool_role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "DRIVER",
+                                            "PASSENGER"
+                                        ],
+                                        "example": "DRIVER"
+                                    },
+                                    "club_name": {
+                                        "type": "string",
+                                        "maxLength": 45,
+                                        "example": "Club Name",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Participation registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Your participation was successfully registered"
+                                        },
+                                        "participation": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "paid": false,
+                                                "present": false,
+                                                "reaction": "GOING",
+                                                "qr_code": "app_url/storage/qr-codes/0b38d49e-e6db-4846-ae0f-b2a43c533afb.svg",
+                                                "checkout_url": "https://www.mollie.com/payscreen/select-method/7UhSN1zuXS",
+                                                "carpool": true,
+                                                "carpool_role": "DRIVER",
+                                                "club_name": "Club Name",
+                                                "problem": null,
+                                                "user_id": 1,
+                                                "event_id": 1,
+                                                "badge_id": null
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to access this resource."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Event not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Event not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "reaction": [
+                                                    "The reaction field is required."
+                                                ],
+                                                "carpool": [
+                                                    "The carpool field is required."
+                                                ],
+                                                "carpool_role": [
+                                                    "The carpool role field is required when carpool is true."
+                                                ],
+                                                "club_name": [
+                                                    "The club name field is required when carpool is true."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "USER"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/events/{event}/participate/{qrcode}": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Set a participant present",
+                "operationId": "28686a70d2f41c6601c16d933e21bd40",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "description": "ID of the event",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "qrcode",
+                        "in": "path",
+                        "description": "QR code of the participation",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Participant set present successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The participant has been set present successfully."
+                                        },
+                                        "participation": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "paid": false,
+                                                "present": true,
+                                                "reaction": "GOING",
+                                                "carpool": true,
+                                                "carpool_role": "DRIVER",
+                                                "club_name": "Club Name",
+                                                "problem": null,
+                                                "user_id": 1,
+                                                "event_id": 1,
+                                                "badge_id": null
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to access this resource."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The checkpoint or participation was not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "ORGANISER"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/events/{event}/achievements/{qrcode}": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Complete achievement for a checkpoint",
+                "operationId": "91024944c2c2eb5123d163140d2f657c",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "description": "ID of the event",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "qrcode",
+                        "in": "path",
+                        "description": "QR code of the checkpoint",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Achievement completed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The achievement has been updated successfully."
+                                        },
+                                        "achievement": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "completed": true,
+                                                "checkpoint_id": 1,
+                                                "participation_id": 1
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to access this resource."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The checkpoint or participation was not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "USER"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/events/{event}/invite": {
+            "post": {
+                "tags": [
+                    "Mail"
+                ],
+                "summary": "Invite users to an event",
+                "operationId": "ea65274a61b285eba372dab71cfcc87c",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "description": "ID of the event to invite users to",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "List of emails to invite",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "followers"
+                                ],
+                                "properties": {
+                                    "followers": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    },
+                                    "emails": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "test1@example.com"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "example": [
+                                            {
+                                                "email": "test1@example.com"
+                                            },
+                                            {
+                                                "email": "test2@example.com"
+                                            },
+                                            {
+                                                "email": "test3@example.com"
+                                            }
+                                        ],
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Event updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The invitations have been sent successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Event not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Event not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "followers": [
+                                                    "The followers field is required."
+                                                ],
+                                                "emails": [
+                                                    "The emails must be an array."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "ORGANISER"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/organisations": {
+            "get": {
+                "tags": [
+                    "Organisations"
+                ],
+                "summary": "Get all organisations",
+                "operationId": "adf4f1a323bdec2d8709835a3d3ef653",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved organisations",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The organisations are returned successfully."
+                                        },
+                                        "organisations": {
+                                            "example": "Array with the organisations will be returned here."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Organisations"
+                ],
+                "summary": "Create a new organisation and link to user",
+                "operationId": "d2dd14efb9f5b86525039c766e1f2442",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "New Organisation"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "A brief description of the organisation"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Organisation created successfully and linked to the user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The organisation has been created successfully and linked to your account."
+                                        },
+                                        "organisation": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "name": "New Organisation",
+                                                "description": "A brief description of the organisation"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to access this resource."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "description": [
+                                                    "The description must be a string."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "USER"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/organisations/{organisation}": {
+            "get": {
+                "tags": [
+                    "Organisations"
+                ],
+                "summary": "Get a specific organisation",
+                "operationId": "f17dcee39bec153e196814d7a4067cb8",
+                "parameters": [
+                    {
+                        "name": "organisation",
+                        "in": "path",
+                        "description": "ID of the organisation",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the organisation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The organisation has been returned successfully."
+                                        },
+                                        "organisation": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "name": "Test Organisation",
+                                                "description": "This is an example description",
+                                                "organisers": "Array",
+                                                "followers": "Array"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Organisation not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\Models\\Organisation]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Organisations"
+                ],
+                "summary": "Delete an organisation",
+                "operationId": "a63f6f9b3081e80a0902e8df181fad5c",
+                "parameters": [
+                    {
+                        "name": "organisation",
+                        "in": "path",
+                        "description": "ID of the organisation to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted the organisation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The organisation has been deleted successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to access this resource."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Organisation not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\Models\\Organisation]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "ORGANISER"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/organisations/{organisation}/follow": {
+            "post": {
+                "tags": [
+                    "Organisations"
+                ],
+                "summary": "Follow an organisation",
+                "operationId": "8519748ef900cb633ed202d0e6afb345",
+                "parameters": [
+                    {
+                        "name": "organisation",
+                        "in": "path",
+                        "description": "ID of the organisation to follow",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully followed the organisation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You have successfully followed the organisation."
+                                        },
+                                        "organisation": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "name": "Test Organisation",
+                                                "description": "This is an example description"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to access this resource."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Organisation not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\Models\\Organisation]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "USER"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Organisations"
+                ],
+                "summary": "Unfollow an organisation",
+                "operationId": "9c1134315c95747595836e82187f6ae0",
+                "parameters": [
+                    {
+                        "name": "organisation",
+                        "in": "path",
+                        "description": "ID of the organisation to unfollow",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully unfollowed the organisation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You have successfully unfollowed the organisation."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to access this resource."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Organisation not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\Models\\Organisation]"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "USER"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/routes/{route}/checkpoints": {
+            "post": {
+                "tags": [
+                    "Routes"
+                ],
+                "summary": "Create a checkpoint and add it to a route",
+                "operationId": "234eef5ed41abe4660e82d91322dc1fd",
+                "parameters": [
+                    {
+                        "name": "route",
+                        "in": "path",
+                        "description": "ID of the route to which the checkpoint will be added",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "longitude": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "maximum": "180",
+                                        "minimum": "-180",
+                                        "example": "45.1234"
+                                    },
+                                    "latitude": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "maximum": "90",
+                                        "minimum": "-90",
+                                        "example": "-75.6789"
+                                    },
+                                    "coin": {
+                                        "type": "number",
+                                        "maximum": "1000",
+                                        "example": "500"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Checkpoint created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Checkpoint created"
+                                        },
+                                        "checkpoint": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "longitude": {
+                                                    "type": "number",
+                                                    "format": "double",
+                                                    "example": "45.1234"
+                                                },
+                                                "latitude": {
+                                                    "type": "number",
+                                                    "format": "double",
+                                                    "example": "-75.6789"
+                                                },
+                                                "coin": {
+                                                    "type": "number",
+                                                    "example": "500"
+                                                },
+                                                "qr_code": {
+                                                    "type": "string",
+                                                    "example": "app_url/storage/qr-codes/9dca6322-1f2d-4777-a352-7310fcd2ff10.svg"
+                                                },
+                                                "route_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to access this resource."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Route not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Route not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "longitude": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The longitude field is required."
+                                                    }
+                                                },
+                                                "latitude": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The latitude field is required."
+                                                    }
+                                                },
+                                                "coin": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The coin field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "ORGANISER"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/routes/{route}/checkpoints/{checkpoint}": {
+            "delete": {
+                "tags": [
+                    "Routes"
+                ],
+                "summary": "Delete a checkpoint from a route",
+                "operationId": "f0bbd38607a6f7acda226a2fcc4c7cfd",
+                "parameters": [
+                    {
+                        "name": "route",
+                        "in": "path",
+                        "description": "ID of the route from which the checkpoint will be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "checkpoint",
+                        "in": "path",
+                        "description": "ID of the checkpoint to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Checkpoint deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Checkpoint deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to access this resource."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Checkpoint or route not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Checkpoint or route not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": [
+                            "ORGANISER"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "Token": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

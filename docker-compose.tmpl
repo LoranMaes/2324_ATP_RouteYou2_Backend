@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  php-web:
+    build:
+      context: ./
+      image: $CI_REGISTRY_IMAGE:php-web-latest
+    container_name: php-web
+    ports:
+      - "8080:80"
+    links:
+      - mysqldb
+  mysqldb:
+    build:
+      context: ./
+      image: $CI_REGISTRY_IMAGE:mysqldb-latest
+    container_name: mysqldb
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=Azerty123
+      - MYSQL_DATABASE=routeyou-events
+      - LANG=C.UTF-8
+  myadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8000:80"
+    environment:
+      - PMA_ARBITRARY=0
+      - PMA_HOST=mysqldb
+      - UPLOAD_LIMIT=50M
+    restart: always
+    depends_on:
+      - mysqldb

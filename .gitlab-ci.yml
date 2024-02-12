@@ -1,0 +1,94 @@
+# include:
+#   - template: Auto-DevOps.gitlab-ci.yml
+
+.run_tests:
+  stage: test
+  tags:
+    - groupRunner
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - cp $ENV_FILE_TEST_BACKEND .env
+    - docker-compose up -d
+  script:
+    - docker cp ./.env backend_routeyou-php-web-1:/var/www/.env
+    - docker compose exec php-web bash -c "composer install"
+    - docker compose exec php-web bash -c "php artisan key:generate"
+    - docker compose exec php-web bash -c "php artisan storage:link"
+    # - docker compose exec php-web bash -c "cat .env.example"
+    - docker compose exec php-web bash -c "cat .env"
+    - docker ps -a
+    # - docker compose exec php-web bash -c "touch storage/logs/laravel.log"
+    # - docker compose exec php-web bash -c "chmod 777 -R storage bootstrap/cache"
+    # - docker compose exec php-web bash -c "php artisan config:cache && php artisan config:clear"
+    # - docker compose exec php-web bash -c "php artisan migrate:fresh"
+    - docker compose exec php-web bash -c "php artisan migrate:fresh --seed"
+    - docker compose exec php-web bash -c "php artisan test --coverage --min=80"
+
+build_image_php-web_for_staging:
+  stage: build
+  tags:
+    - groupRunner
+  image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:php-web-latest
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+
+  script:
+    - docker build -f Dockerfile.staging -t $CONTAINER_IMAGE .
+    - docker push $CONTAINER_IMAGE
+  only:
+    - dev
+
+deploy_to_staging:
+  stage: deploy
+  tags:
+    - groupRunner
+  image: rockylinux:8
+  before_script:
+    - yum install openssh-server openssh-clients -y
+    - yum makecache
+    - yum -y install sshpass
+    - yum install -y python3
+    - yum install python3-pip 
+    - python3 -m pip install --upgrade pip
+    - pip3 install --upgrade cryptography
+    - pip3 install ansible
+    - pip3 install ansible-lint
+    - cd ansible
+    - chmod 770 .
+    - ansible-galaxy collection install community.docker
+    - echo $ANSIBLE_VAULT_PASSWORD > .vault_password.txt
+
+  script:
+    - ansible-playbook playbook-STAGING.yml --vault-password-file .vault_password.txt -e "docker_image_backend=${docker_image_backend} docker_registry=${CI_REGISTRY} docker_registry_user=${CI_REGISTRY_USER} docker_registry_password=${CI_REGISTRY_PASSWORD} OPENCAGE_GEOCODE_API_KEY=${OPENCAGE_GEOCODE_API_KEY}"
+  needs:
+    - job: build_image_php-web_for_staging
+      artifacts: true
+  only:
+    - dev
+
+deploy-to-production:
+  stage: deploy
+  tags:
+  - groupRunner
+  image: google/cloud-sdk:latest
+  services:
+  - docker:dind
+  script:
+    - cp $ENV_FILE_PRODUCTION_BACKEND app/.env
+    - echo $GOOGLE_CLOUD_CREDENTIALS > service-account-key.json 
+    - gcloud auth activate-service-account --key-file service-account-key.json 
+    - gcloud config set project $PROJECT_ID 
+    - gcloud builds submit . --config=cloudbuild.yaml
+  after_script:
+    - rm -f service-account-key.json
+  only:
+  - main

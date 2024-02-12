@@ -1,0 +1,35 @@
+steps:
+  # build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "-t"
+      - "europe-west1-docker.pkg.dev/$PROJECT_ID/backend-routeyou/backend-routeyou"
+      - "-f"
+      - "Dockerfile.production"
+      - "."
+
+  # push the container image to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "europe-west1-docker.pkg.dev/$PROJECT_ID/backend-routeyou/backend-routeyou",
+      ]
+  # deploy to Cloud Run
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "backend-routeyou"
+      - "--image"
+      - "europe-west1-docker.pkg.dev/$PROJECT_ID/backend-routeyou/backend-routeyou"
+      - "--region"
+      - "europe-west1"
+      - "--platform"
+      - "managed"
+      - "--allow-unauthenticated"
+      - "--max-instances"
+      - "10"
+      - "--min-instances"
+      - "1"

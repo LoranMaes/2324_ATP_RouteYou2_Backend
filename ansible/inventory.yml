@@ -1,0 +1,16 @@
+---
+all:
+  children:
+    pipelinerunner:
+      hosts:
+        pipeline-runner:
+    stagingservers:
+      hosts:
+        stagingserver:
+    stiging_db_servers:
+      hosts:
+        staging-db-server:
+    # productieservers:
+    #   hosts:
+    #     productieserver:
+

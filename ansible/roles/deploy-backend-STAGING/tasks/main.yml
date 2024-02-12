@@ -1,0 +1,69 @@
+---
+# tasks file for roles/deploy-backend
+- name: Maak een nieuwe map
+  file:
+    path: docker-backend
+    state: directory
+
+- name: copy docker-compose files
+  template:
+    src: "{{ role_path }}/templates/docker-compose.yml.j2"
+    dest: /home/student/docker-backend/docker-compose.yml
+
+- name: Log into private registry and force re-authorization
+  community.docker.docker_login:
+    registry_url: registry.gitlab.com
+    username: "{{docker_registry_user}}"
+    password: "{{docker_registry_password}}"
+    reauthorize: true
+
+- name: Execute Docker Compose
+  community.docker.docker_compose:
+    project_src: /home/student/docker-backend/
+    project_name: backend-routyou
+    state: present
+    recreate: always
+    pull: true
+    nocache: true
+
+- name: Maak een temporary map
+  file:
+    path: temporary
+    state: directory
+
+- name: Create template on host
+  ansible.builtin.template:
+    src: env.staging.j2
+    dest: temporary/.env-staging
+
+- name: Copy .env file into Docker container
+  ansible.builtin.command:
+    cmd: docker cp temporary/.env-staging php-web:/var/www/.env
+
+- name: Install composer dependencies
+  ansible.builtin.command:
+    cmd: docker exec -it php-web bash -c "composer install"
+
+# - name: clear cache
+#   ansible.builtin.command:
+#     cmd: docker exec -it php-web bash -c "php artisan config:cache && php artisan config:clear"
+
+- name: Generate Laravel key
+  ansible.builtin.command:
+    cmd: docker exec -it php-web bash -c "php artisan key:generate"
+
+- name: Create storage link
+  ansible.builtin.command:
+    cmd: docker exec -it php-web bash -c "php artisan storage:link"
+
+# - name: Display .env.example
+#   ansible.builtin.command:
+#     cmd: docker exec -it php-web bash -c "cat .env.example"
+
+# - name: Display .env
+#   ansible.builtin.command:
+#     cmd: docker exec -it php-web bash -c "cat .env"
+
+# - name: Run migrations and seed database       #NOT IN PRODUCTION !!!
+#   ansible.builtin.command:
+#     cmd: docker exec -it php-web bash -c "php artisan migrate:fresh --seed"

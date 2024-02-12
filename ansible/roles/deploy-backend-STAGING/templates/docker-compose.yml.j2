@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  php-web:
+    build:
+      context: ./
+    image: "{{ docker_image_backend }}:php-web-latest"
+    container_name: php-web
+    ports:
+      - "8080:80"

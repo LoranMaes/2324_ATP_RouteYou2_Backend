@@ -1,0 +1,12 @@
+---
+collections:
+  - name: community.docker
+  - name: community.general
+  - name: community.mysql
+
+# yum install python-requests
+
+# pip install requests google-auth
+
+# ansible-galaxy install -r requirements.yml
+# ansible-galaxy collection list
